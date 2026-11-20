@@ -1,0 +1,45 @@
+{
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.2-astra",
+  "enabledModels": [
+    "openai/gpt-6.2-astra",
+    "openai/gpt-6.2-sol"
+  ],
+  "enableInstallTelemetry": false,
+  "quietStartup": true,
+  "collapseChangelog": true,
+  "showCacheMissNotices": true,
+  "transport": "websocket-cached",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "lastChangelogVersion": "1.5.2",
+  "packages": [
+    "npm:pi-open-tui",
+    "npm:@nothumanwork/pi-atlassian",
+    "npm:@nothumanwork/pi-loggly",
+    "npm:@nothumanwork/pi-fast",
+    "npm:@nothumanwork/pi-remote",
+    "npm:@nothumanwork/pi-advisor",
+    "npm:@nothumanwork/pi-background-compaction",
+    "npm:@nothumanwork/pi-idle-compaction"
+  ],
+  "backgroundCompaction": {
+    "enabled": true,
+    "model": "openai/gpt-6.2-sol"
+  },
+  "idleCompaction": {
+    "enabled": true,
+    "tokenThreshold": 150000,
+    "idleMinutes": 5
+  },
+  "fast": {
+    "ultrafastModels": [
+      "gpt-6.2-astra",
+      "gpt-6.2-sol"
+    ]
+  },
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-open-tui\",\"scope\":\"user\"}": "0.4.6"
+  }
+}

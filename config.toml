@@ -1,0 +1,142 @@
+[settings]
+experimental = true
+minimum_release_age = "0"
+env_shell_expand = true
+
+[settings.age]
+strict = false
+
+[settings.npm]
+package_manager = "bun"
+shell_out = true
+
+[settings.github]
+enterprise_hosts = ["leadforensics.ghe.com"]
+
+[settings.tool_update]
+global_auto = true
+
+[settings.self_update]
+auto = true
+
+[env]
+IS_SANDBOX = "1"
+NODE_USE_SYSTEM_CA = "1"
+UV_SYSTEM_CERTS = true
+
+# pi env vars
+ATLASSIAN_ALLOW_WRITES = "1"
+
+[shell_alias]
+vi = "hx"
+vim = "hx"
+nvim = "hx"
+gs = "git status"
+gd = "git diff"
+cl = "claude"
+ccl = "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1 claude"
+
+[wrappers.claude]
+command = "fnox"
+args = [
+  "run",
+  "--",
+  "claude"
+]
+
+[wrappers.pi]
+command = "fnox"
+args = [
+  "run",
+  "--only", "ATLASSIAN_API_TOKEN",
+  "--only", "ATLASSIAN_API_USERNAME",
+  "--only", "ATLASSIAN_BASE_URL",
+  "--only", "LOGGLY_API_TOKEN",
+  "--only", "LOGGLY_SUBDOMAIN",
+  "--only", "EXA_API_KEY",
+  "--",
+  "pi"
+]
+
+[wrappers.ghw]
+command = "fnox"
+args = [
+  "run",
+  "--only",
+  "GITHUB_ENTERPRISE_TOKEN",
+  "--",
+  "gh",
+  "--hostname",
+  "leadforensics.ghe.com"
+]
+
+[wrappers.gh]
+command = "fnox"
+args = [
+  "run",
+  "--only",
+  "GITHUB_TOKEN",
+  "--",
+  "gh",
+  "--hostname",
+  "github.com"
+]
+
+[wrappers.gitw]
+command = "fnox"
+args = [
+  "run",
+  "--only",
+  "GITHUB_ENTERPRISE_TOKEN",
+  "--",
+  "git"
+]
+
+[wrappers.git]
+command = "fnox"
+args = [
+  "run",
+  "--only",
+  "GITHUB_TOKEN",
+  "--",
+  "git"
+]
+
+[tool_alias]
+node = "core:node"
+bun = "core:bun"
+python = "core:python"
+
+[tools]
+age = "latest"
+helix = "latest"
+node = "24"
+bun = "latest"
+python = "latest"
+gh = "latest"
+doppler = "latest"
+fnox = "latest"
+claude = "latest"
+pi = "latest"
+fd = "latest"
+ripgrep = "latest"
+
+[bootstrap.mise_shell_activate]
+zsh = true
+bash = true
+
+[dotfiles]
+"~/.zshenv/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
+"~/.bashrc/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
+# bashrc sourcing in bash_profile
+"~/.bash_profile/source-bashrc" = { block = '''
+if [[ -f ~/.bashrc ]]; then
+  source ~/.bashrc
+fi
+'''}
+"~/.config/fnox/config.toml" = { source = "dotfiles/fnox/config.toml", mode = "symlink" }
+
+"~/.claude.json" = { source = "dotfiles/claude/.claude.json", mode = "copy" }
+"~/.claude/settings.json" = { source = "dotfiles/claude/settings.json", mode = "symlink" }
+
+"~/.pi/agent/settings.json" = { source = "dotfiles/pi/agent/settings.json", mode = "symlink" }

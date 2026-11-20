@@ -1,0 +1,33 @@
+{
+  "env": {
+    "CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS": "100000"
+   },
+  "attribution": false,
+  "advisor": "fable",
+  "model": "claude-opus-5-5",
+  "effortLevel": "high",
+  "autoCompactEnabled": true,
+  "autoCompactWindow": 400000,
+  "autoMemoryEnabled": true,
+  "autoScrollEnabled": true,
+  "awaySummaryEnabled": true,
+  "bashEditDiffEnabled": true,
+  "channelsEnabled": true,
+  "copyOnSelect": true,
+  "enableArtifact": true,
+  "enableWorkflows": true,
+  "idleCompaction": true,
+  "outputStyle": "Concise",
+  "promptCacheTtl": "1h",
+  "subagentPromptCacheTtl": "1h",
+  "showThinkingSummaries": true,
+  "showTurnDuration": true,
+  "spellcheck": true,
+  "spinnerTipsEnabled": false,
+  "terminalProgressBarEnabled": true,
+  "tui": "fullscreen",
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "theme": "dark"
+}
