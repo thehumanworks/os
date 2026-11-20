@@ -1,6 +1,7 @@
 [settings]
 experimental = true
-minimum_release_age = "0"
+minimum_release_age = "24h"
+idiomatic_version_file_enable_tools = ["python", "node"]
 env_shell_expand = true
 
 [settings.age]
@@ -62,6 +63,15 @@ args = [
   "--only", "EXA_API_KEY",
   "--",
   "pi"
+]
+
+[wrappers.doppler]
+command = "fnox"
+args = [
+  "run",
+  "--only", "DOPPLER_TOKEN",
+  "--",
+  "doppler"
 ]
 
 [wrappers.gh]

@@ -45,5 +45,6 @@
   },
   "extensionChangelogVersions": {
     "{\"source\":\"npm:pi-open-tui\",\"scope\":\"user\"}": "0.4.6"
-  }
+  },
+  "hideThinkingBlock": true
 }
