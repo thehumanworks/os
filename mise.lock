@@ -334,77 +334,6 @@ url = "https://github.com/sharkdp/fd/releases/download/v10.5.2/fd-v10.5.2-x86_64
 url_api = "https://api.github.com/repos/sharkdp/fd/releases/assets/719974267"
 provenance = "github-attestations"
 
-[[tools.fnox]]
-version = "1.50.0"
-backend = "packslip:github.com/jdx/fnox"
-specifiers = ["latest"]
-
-[tools.fnox."platforms.linux-arm64"]
-checksum = "sha256:605b3f5fdd8cf4806d7be63ca4ef52c6fa26d86ac7c97a04a3263daf990233dd"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-aarch64-unknown-linux-gnu.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.linux-arm64-musl"]
-checksum = "sha256:6dd97b15ca535e52813ad01f4e6e14e0b630fcd18cfaf439a8b9dd76ffd74e85"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-aarch64-unknown-linux-musl.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.linux-x64"]
-checksum = "sha256:f08da606e120c676fc3a4f3def970a4ade82e3857841a3961afbdd337a88e30b"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-unknown-linux-gnu.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.linux-x64-baseline"]
-checksum = "sha256:f08da606e120c676fc3a4f3def970a4ade82e3857841a3961afbdd337a88e30b"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-unknown-linux-gnu.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.linux-x64-musl"]
-checksum = "sha256:3ad4c13244cd9fb6ae45931cc22f876a3ee8608a0fcc7e429c2f890ff6d7da18"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-unknown-linux-musl.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3ad4c13244cd9fb6ae45931cc22f876a3ee8608a0fcc7e429c2f890ff6d7da18"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-unknown-linux-musl.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.macos-arm64"]
-checksum = "sha256:cf8301a5355c3249284b4102c871b0c4b5e5924cd7b61397f7539f4328041eff"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-aarch64-apple-darwin.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.macos-x64"]
-checksum = "sha256:76bd810eaecdce2e02fcbe51deda070e72dcf85c216d746512c469f4012e7f72"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-apple-darwin.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.macos-x64-baseline"]
-checksum = "sha256:76bd810eaecdce2e02fcbe51deda070e72dcf85c216d746512c469f4012e7f72"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-apple-darwin.tar.gz"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.windows-x64"]
-checksum = "sha256:14ddd4b9d97274e5ec725ff98fbf3145291c94d21ef40c6ffa224900ad6d15e6"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-pc-windows-msvc.zip"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
-[tools.fnox."platforms.windows-x64-baseline"]
-checksum = "sha256:14ddd4b9d97274e5ec725ff98fbf3145291c94d21ef40c6ffa224900ad6d15e6"
-url = "https://github.com/jdx/fnox/releases/download/v1.50.0/fnox-x86_64-pc-windows-msvc.zip"
-signer = "sigstore-oidc:https://github.com/jdx/fnox/.github/workflows/release.yml"
-repository_ids = { repository = "1078762196" }
-
 [[tools.gh]]
 version = "2.105.0"
 backend = "aqua:cli/cli"
@@ -475,6 +404,59 @@ checksum = "sha256:8813a72c899900afaa10e3fec8fbc64b908c89dbfe837e95ed2fa500fc140
 url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_windows_amd64.zip"
 url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188741"
 provenance = "github-attestations"
+
+[[tools."github:tailscale/tailcat"]]
+version = "0.7.0"
+backend = "github:tailscale/tailcat"
+specifiers = ["latest"]
+
+[tools."github:tailscale/tailcat"."platforms.linux-arm64"]
+checksum = "sha256:bbb1ab50f24f00effe1e1fd86d0501803fb80793a90785a2a16ff3428f03d8ef"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324110"
+
+[tools."github:tailscale/tailcat"."platforms.linux-arm64-musl"]
+checksum = "sha256:bbb1ab50f24f00effe1e1fd86d0501803fb80793a90785a2a16ff3428f03d8ef"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324110"
+
+[tools."github:tailscale/tailcat"."platforms.linux-x64"]
+checksum = "sha256:23c0b1887a5ec422f0d18a9c52b4f5357815febdaae738a1eb54036d10bd9ee6"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324105"
+
+[tools."github:tailscale/tailcat"."platforms.linux-x64-baseline"]
+checksum = "sha256:23c0b1887a5ec422f0d18a9c52b4f5357815febdaae738a1eb54036d10bd9ee6"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324105"
+
+[tools."github:tailscale/tailcat"."platforms.linux-x64-musl"]
+checksum = "sha256:23c0b1887a5ec422f0d18a9c52b4f5357815febdaae738a1eb54036d10bd9ee6"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324105"
+
+[tools."github:tailscale/tailcat"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:23c0b1887a5ec422f0d18a9c52b4f5357815febdaae738a1eb54036d10bd9ee6"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324105"
+
+[tools."github:tailscale/tailcat"."platforms.windows-x64"]
+checksum = "sha256:f04cac07e3bf6c700b0b543df0d3315a3b312cd5a05ee76714e1cc848e9b2dff"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324127"
+
+[tools."github:tailscale/tailcat"."platforms.windows-x64-baseline"]
+checksum = "sha256:f04cac07e3bf6c700b0b543df0d3315a3b312cd5a05ee76714e1cc848e9b2dff"
+checksum_source = "mise-versions"
+url = "https://github.com/tailscale/tailcat/releases/download/v0.7.0/tailcat_0.7.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/tailscale/tailcat/releases/assets/575324127"
 
 [[tools."github:thehumanworks/capnshell"]]
 version = "1.6.1"

@@ -44,7 +44,8 @@
     ]
   },
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-open-tui\",\"scope\":\"user\"}": "0.4.6"
+    "{\"source\":\"npm:pi-open-tui\",\"scope\":\"user\"}": "0.4.7"
   },
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "advisorModel": "openai/gpt-6.2-astra"
 }

@@ -1,34 +1,56 @@
 {
   "env": {
     "CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS": "100000"
-   },
-  "attribution": false,
-  "advisor": "fable",
-  "model": "claude-opus-5-5",
-  "effortLevel": "high",
-  "autoCompactEnabled": true,
-  "autoCompactWindow": 400000,
-  "autoMemoryEnabled": true,
-  "autoScrollEnabled": true,
-  "awaySummaryEnabled": true,
-  "bashEditDiffEnabled": true,
-  "channelsEnabled": true,
-  "copyOnSelect": true,
-  "enableArtifact": true,
-  "enableWorkflows": true,
-  "idleCompaction": true,
-  "outputStyle": "Concise",
-  "promptCacheTtl": "1h",
-  "subagentPromptCacheTtl": "1h",
-  "showThinkingSummaries": true,
-  "showTurnDuration": true,
-  "spellcheck": true,
-  "spinnerTipsEnabled": false,
-  "terminalProgressBarEnabled": true,
-  "tui": "fullscreen",
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "permissions": {
     "defaultMode": "auto"
   },
+  "model": "auto",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/home/rodat/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "enableArtifact": true,
+  "enableWorkflows": true,
+  "bashEditDiffEnabled": true,
+  "outputStyle": "Concise",
+  "spinnerTipsEnabled": false,
+  "promptCacheTtl": "1h",
+  "subagentPromptCacheTtl": "1h",
+  "effortLevel": "high",
+  "modelSettings": {
+    "gpt-6.2-sol": {
+      "effortLevel": "low"
+    }
+  },
+  "autoCompactWindow": 400000,
+  "awaySummaryEnabled": true,
+  "tui": "fullscreen",
+  "channelsEnabled": true,
+  "autoMemoryEnabled": true,
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "hooks": {"SessionStart":[{"matcher":"^(startup|resume|clear|compact|fork)$","hooks":[{"type":"command","command":"bash '/home/rodat/.claude/hooks/herdr-agent-state.sh' session","timeout":10}]}]}
+  "autoCompactEnabled": true,
+  "idleCompaction": true,
+  "autoScrollEnabled": true,
+  "showTurnDuration": true,
+  "terminalProgressBarEnabled": true,
+  "advisor": "fable",
+  "copyOnSelect": true
 }

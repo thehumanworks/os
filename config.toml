@@ -1,6 +1,6 @@
 [settings]
 experimental = true
-minimum_release_age = "24h"
+minimum_release_age = "0d"
 idiomatic_version_file_enable_tools = ["python", "node"]
 env_shell_expand = true
 
@@ -42,41 +42,31 @@ cl = "claude"
 ccl = "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1 claude"
 
 [wrappers.claude]
-command = "fnox"
+command = "doppler"
 args = [
   "run",
-  "--only", "CLAUDE_CODE_OAUTH_TOKEN",
-  "--only", "EXA_API_KEY",
+  "--only-secrets", "CLAUDE_CODE_OAUTH_TOKEN",
+  "--only-secrets", "EXA_API_KEY",
+  "--project", "global",
+  "--config", "dev",
   "--",
   "claude"
 ]
 
 [wrappers.pi]
-command = "fnox"
+command = "doppler"
 args = [
   "run",
-  "--only", "ATLASSIAN_API_TOKEN",
-  "--only", "ATLASSIAN_API_USERNAME",
-  "--only", "ATLASSIAN_BASE_URL",
-  "--only", "LOGGLY_API_TOKEN",
-  "--only", "LOGGLY_SUBDOMAIN",
-  "--only", "EXA_API_KEY",
+  "--only-secrets", "ATLASSIAN_API_TOKEN",
+  "--only-secrets", "ATLASSIAN_API_USERNAME",
+  "--only-secrets", "ATLASSIAN_BASE_URL",
+  "--only-secrets", "LOGGLY_API_TOKEN",
+  "--only-secrets", "LOGGLY_SUBDOMAIN",
+  "--only-secrets", "EXA_API_KEY",
+  "--project", "vault", "--config", "prd",
   "--",
   "pi"
 ]
-
-[wrappers.doppler]
-command = "fnox"
-args = [
-  "run",
-  "--only", "DOPPLER_TOKEN",
-  "--",
-  "doppler"
-]
-
-[wrappers.gh]
-command = "bash"
-args = ["{{ config_source | dirname }}/scripts/gh-fnox"]
 
 [tool_alias]
 node = "core:node"
@@ -93,7 +83,6 @@ python = "latest"
 gh = "latest"
 kbtd = "latest"
 doppler = "latest"
-fnox = "latest"
 claude = "latest"
 pi = "latest"
 fd = "latest"
@@ -104,25 +93,19 @@ tmux = "latest"
 "github:thehumanworks/capnshell" = "latest"
 hunk = "latest"
 uv = "latest"
-
-[tasks.bootstrap]
-description = "Configure Git defaults, identities, HTTPS rewrites and credential helpers"
-env.BOOTSTRAP_CONFIG_DIR = "{{ config_source | dirname }}"
-# Mise's native secret grants are unavailable in global bootstrap tasks.
-run = '''
-exec fnox --config "$BOOTSTRAP_CONFIG_DIR/dotfiles/fnox/config.toml" --if-missing error \
-  exec --redact --only GIT_PERSONAL_NAME,GIT_PERSONAL_EMAIL,GIT_WORK_NAME,GIT_WORK_EMAIL \
-  -- bash "$BOOTSTRAP_CONFIG_DIR/scripts/bootstrap-git"
-'''
-
-[bootstrap.packages]
-git = { version = "latest", names = { winget = "Git.Git" } }
+"github:tailscale/tailcat" = "latest"
 
 [bootstrap.mise_shell_activate]
 zsh = true
 bash = true
 
 [dotfiles]
+# Include shared defaults without linking Git's writable global config.
+"~/.config/git/config/mise-defaults" = { block = '''
+[include]
+    path = ~/.config/mise/dotfiles/git/config
+''' }
+
 # shell - path activation
 "~/.zshenv/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
 "~/.bashrc/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
@@ -132,9 +115,6 @@ if [[ -f ~/.bashrc ]]; then
   source ~/.bashrc
 fi
 '''}
-
-# fnox - config symlink
-"~/.config/fnox/config.toml" = { source = "dotfiles/fnox/config.toml", mode = "symlink" }
 
 # claude - .claude.json (includes MCP Servers) and settings
 "~/.claude.json" = { source = "dotfiles/claude/.claude.json", mode = "copy" }
