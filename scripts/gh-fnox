@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host=${GH_HOST:-}
+if [[ -z $host ]]; then
+  host=$(git config --get mise.githubHost) || {
+    rc=$?
+    [[ $rc == 1 ]] || exit "$rc"  # Only an absent setting means personal.
+    host=github.com
+  }
+fi
+case $host in
+  github.com|leadforensics.ghe.com) ;;
+  *) printf 'Unsupported GitHub host; use github.com or leadforensics.ghe.com.\n' >&2; exit 1 ;;
+esac
+export GH_HOST="$host"
+config_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
+
+# Unlike most commands, auth status checks every known host by default.
+if [[ ${1:-} == auth && ${2:-} == status ]]; then
+  shift 2
+  set -- auth status --hostname "$host" "$@"
+fi
+
+unset GH_TOKEN GITHUB_TOKEN GH_ENTERPRISE_TOKEN GITHUB_ENTERPRISE_TOKEN
+exec fnox --config "$config_dir/dotfiles/fnox/config.toml" --profile "$host" --if-missing error \
+  exec --only GH_TOKEN -- sh -c '
+    : "${GH_TOKEN:?fnox did not supply GH_TOKEN}"
+    unset GITHUB_TOKEN GITHUB_ENTERPRISE_TOKEN
+    exec gh "$@"
+  ' gh-fnox "$@"

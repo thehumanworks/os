@@ -1,5 +1,14 @@
 {
   "hasCompletedOnboarding": true,
   "codeModeCaveatsAcceptedV1": true,
-  "codeModeAutoModeCaveatAcceptedV1": true
+  "codeModeAutoModeCaveatAcceptedV1": true,
+   "mcpServers": {
+    "exa": {
+      "url": "https://mcp.exa.ai/mcp",
+      "type": "http",
+      "headers": {
+        "Authorization": "Bearer ${EXA_API_KEY}"
+      }
+    }
+  }
 }

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "exa": {
+      "url": "https://mcp.exa.ai/mcp",
+      "type": "http",
+      "description": "Run web searches using Exa",
+      "headers": {
+        "Authorization": "Bearer ${EXA_API_KEY}"
+      }
+    }
+  }
+}

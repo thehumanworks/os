@@ -20,9 +20,13 @@ global_auto = true
 auto = true
 
 [env]
+MISE_YES = "1"
 IS_SANDBOX = "1"
 NODE_USE_SYSTEM_CA = "1"
 UV_SYSTEM_CERTS = true
+# Build project .venvs from a matching Python on PATH (normally mise's), not uv's own installs.
+UV_PYTHON_PREFERENCE = "only-system"
+UV_PYTHON_DOWNLOADS = "never"
 
 # pi env vars
 ATLASSIAN_ALLOW_WRITES = "1"
@@ -40,6 +44,8 @@ ccl = "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1 claude"
 command = "fnox"
 args = [
   "run",
+  "--only", "CLAUDE_CODE_OAUTH_TOKEN",
+  "--only", "EXA_API_KEY",
   "--",
   "claude"
 ]
@@ -58,54 +64,15 @@ args = [
   "pi"
 ]
 
-[wrappers.ghw]
-command = "fnox"
-args = [
-  "run",
-  "--only",
-  "GITHUB_ENTERPRISE_TOKEN",
-  "--",
-  "gh",
-  "--hostname",
-  "leadforensics.ghe.com"
-]
-
 [wrappers.gh]
-command = "fnox"
-args = [
-  "run",
-  "--only",
-  "GITHUB_TOKEN",
-  "--",
-  "gh",
-  "--hostname",
-  "github.com"
-]
-
-[wrappers.gitw]
-command = "fnox"
-args = [
-  "run",
-  "--only",
-  "GITHUB_ENTERPRISE_TOKEN",
-  "--",
-  "git"
-]
-
-[wrappers.git]
-command = "fnox"
-args = [
-  "run",
-  "--only",
-  "GITHUB_TOKEN",
-  "--",
-  "git"
-]
+command = "bash"
+args = ["{{ config_source | dirname }}/scripts/gh-fnox"]
 
 [tool_alias]
 node = "core:node"
 bun = "core:bun"
 python = "core:python"
+kbtd = "pypi:git+https://github.com/thehumanworks/kbtd#uvx"
 
 [tools]
 age = "latest"
@@ -114,29 +81,55 @@ node = "24"
 bun = "latest"
 python = "latest"
 gh = "latest"
+kbtd = "latest"
 doppler = "latest"
 fnox = "latest"
 claude = "latest"
 pi = "latest"
 fd = "latest"
 ripgrep = "latest"
+herdr = "latest"
+tmux = "latest"
+"github:thehumanworks/wit" = "latest"
+"github:thehumanworks/capnshell" = "latest"
+hunk = "latest"
+uv = "latest"
+
+[tasks.bootstrap]
+description = "Configure Git defaults, identities, HTTPS rewrites and credential helpers"
+env.BOOTSTRAP_CONFIG_DIR = "{{ config_source | dirname }}"
+# Mise's native secret grants are unavailable in global bootstrap tasks.
+run = '''
+exec fnox --config "$BOOTSTRAP_CONFIG_DIR/dotfiles/fnox/config.toml" --if-missing error \
+  exec --redact --only GIT_PERSONAL_NAME,GIT_PERSONAL_EMAIL,GIT_WORK_NAME,GIT_WORK_EMAIL \
+  -- bash "$BOOTSTRAP_CONFIG_DIR/scripts/bootstrap-git"
+'''
+
+[bootstrap.packages]
+git = { version = "latest", names = { winget = "Git.Git" } }
 
 [bootstrap.mise_shell_activate]
 zsh = true
 bash = true
 
 [dotfiles]
+# shell - path activation
 "~/.zshenv/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
 "~/.bashrc/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
-# bashrc sourcing in bash_profile
+# shell - bashrc activation in bash_profile
 "~/.bash_profile/source-bashrc" = { block = '''
 if [[ -f ~/.bashrc ]]; then
   source ~/.bashrc
 fi
 '''}
+
+# fnox - config symlink
 "~/.config/fnox/config.toml" = { source = "dotfiles/fnox/config.toml", mode = "symlink" }
 
+# claude - .claude.json (includes MCP Servers) and settings
 "~/.claude.json" = { source = "dotfiles/claude/.claude.json", mode = "copy" }
 "~/.claude/settings.json" = { source = "dotfiles/claude/settings.json", mode = "symlink" }
 
+# pi - settings and MCP servers
 "~/.pi/agent/settings.json" = { source = "dotfiles/pi/agent/settings.json", mode = "symlink" }
+"~/.pi/agent/mcp.json" = { source = "dotfiles/pi/agent/mcp.json", mode = "symlink" }
