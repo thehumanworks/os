@@ -139,7 +139,9 @@ fi
 # claude - .claude.json (includes MCP Servers) and settings
 "~/.claude.json" = { source = "dotfiles/claude/.claude.json", mode = "copy" }
 "~/.claude/settings.json" = { source = "dotfiles/claude/settings.json", mode = "symlink" }
+"~/.claude/hooks" = { source = "dotfiles/claude/hooks", mode = "symlink-each" }
 
 # pi - settings and MCP servers
 "~/.pi/agent/settings.json" = { source = "dotfiles/pi/agent/settings.json", mode = "symlink" }
 "~/.pi/agent/mcp.json" = { source = "dotfiles/pi/agent/mcp.json", mode = "symlink" }
+"~/.pi/agent/open-tui.json" = { source = "dotfiles/pi/agent/open-tui.json", mode = "symlink" }
