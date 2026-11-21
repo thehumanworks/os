@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#MISE description="Sign in to personal GitHub.com and configure its Git credential helper"
+set -euo pipefail
+
+# gh refuses to save a login supplied by stdin if a token is also in its environment.
+unset GH_TOKEN GITHUB_TOKEN
+# shellcheck disable=SC2016 # Expand GITHUB_TOKEN only inside Doppler's child shell.
+doppler run --only-secrets GITHUB_TOKEN -p vault -c prd -- bash -c '
+  exec env -u GITHUB_TOKEN gh auth login --hostname github.com --with-token \
+    <<< "${GITHUB_TOKEN:?Doppler provided no GITHUB_TOKEN}"
+'
+gh auth setup-git --hostname github.com

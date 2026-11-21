@@ -3,5 +3,13 @@
 [push]
 	default = simple
 	autoSetupRemote = true
+[pull]
+	rebase = false
+[fetch]
+	prune = true
+[diff]
+	algorithm = histogram
+[merge]
+	conflictStyle = zdiff3
 [user]
 	useConfigOnly = true

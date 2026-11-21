@@ -15,20 +15,67 @@ When resolving floating tool versions such as `latest` or `node = "24"`, mise sk
 
 ## Git defaults
 
-On a new machine, check out this repository at `~/.config/mise` and run
-`mise bootstrap --only dotfiles`. Mise adds an include to `~/.config/git/config`
-and leaves `~/.gitconfig` alone. The shared file sets the initial branch to `main`,
-push mode to `simple`, automatic upstream setup (Git 2.37+), and
-`user.useConfigOnly = true` so Git won't guess a commit identity.
+Git settings are dotfiles; no bootstrap script or login is required. To apply
+**only Git's defaults**, run this from the checkout root inside the sandbox:
 
-Names, emails, work identity includes and credential helpers remain local.
-Set up your identity and authentication separately on new machines. Entries
-in `~/.gitconfig` and repository config can override the defaults.
-Check the active value and its source with `git config --show-origin --get push.default`.
+```sh
+MISE_CONFIG_DIR="$PWD" mise dot apply ~/.config/git/mise-defaults ~/.gitconfig
+```
+
+If this checkout is already the active global mise config, omit `MISE_CONFIG_DIR`.
+`mise bootstrap --only dotfiles` applies the same entries along with the other
+dotfiles. Mise copies `dotfiles/git/config` to `~/.config/git/mise-defaults` and
+prepends an include to a writable `~/.gitconfig`, creating it if needed. A direct
+copy over `~/.gitconfig` would erase existing identity and credential settings.
+
+New repositories start on `main`. The first plain push sets the upstream
+(Git 2.37+); pulls merge rather than rebase, and fetches prune stale remote-tracking
+branches. Diffs use the histogram algorithm, and merge conflicts show the common
+ancestor with `zdiff3`.
+
+Git won't guess a commit identity. Set `user.name` and `user.email` with
+`git config --global` in the sandbox, or `git config --local` for one repository.
+To check which settings won, run `git config --show-origin --get pull.rebase`.
+
+If you used the previous setup, remove only the old `mise:mise-defaults` block
+from `~/.config/git/config` to avoid loading the defaults twice. Run
+`bash tests/bootstrap-git.sh` to check the setup offline in a temporary home.
+
+## Personal GitHub login
+
+On a full `mise bootstrap`, [`tasks/bootstrap`](tasks/bootstrap) runs after tool installation.
+It is the last step **this repo configures**, not mise’s optional [`final` hook](https://mise.jdx.dev/bootstrap.html#how-it-runs), which would run after it.
+With Git, `gh`, `doppler`, and access to `GITHUB_TOKEN` in `vault/prd`, run just the login from this checkout:
+
+```sh
+MISE_CONFIG_DIR="$PWD" mise bootstrap --only task
+```
+
+`--only task` does not install missing tools. If a private clone or tool download needs
+GitHub access earlier in bootstrap, run `MISE_CONFIG_DIR="$PWD" mise install gh doppler`
+from the checkout first, run the login above, then finish with
+`MISE_CONFIG_DIR="$PWD" mise bootstrap --skip task`.
+
+Each run makes the Doppler token's account active on **github.com**, even if another
+account was active. `gh auth setup-git --hostname github.com` replaces the HTTPS
+credential helpers for `github.com` and `gist.github.com`; it does not change your
+commit identity, SSH remotes, or helpers for other hosts. To keep an existing login,
+use `--skip task`, **not** `--no-hooks`. For settings alone, use `--only dotfiles`.
+
+To check the stored login without using a shell token, run
+`env -u GH_TOKEN -u GITHUB_TOKEN gh auth status --active --hostname github.com`.
+`gh` uses the system credential store when available, but may store the token in
+plaintext in its own config if no keyring works. Do not share that directory.
+`bash tests/bootstrap-auth.sh` tests the flow offline without fetching a real token.
+
+## Project-local mise skills
+
+- [Deploy dotfiles](.agents/skills/mise-dotfiles/SKILL.md): choose between copying, seeding, or editing a file without losing local settings.
+- [Bootstrap a sandbox](.agents/skills/mise-bootstrap/SKILL.md): select the right config and preview only the resources you want to apply.
+- [Bootstrap personal GitHub authentication](.agents/skills/mise-bootstrap-auth/SKILL.md): pass a scoped secret to a global file task and verify what it changes.
+- [Manage tools and tasks](.agents/skills/mise-tools-and-tasks/SKILL.md): diagnose version selection and verify locks and commands in CI.
 
 ## Secrets
-The project uses `fnox` for secret management, with `age` as the provider. The hosts must have either:
-- ~/.config/fnox/age.txt
-- `FNOX_AGE_KEY` defined as an `env` var with the identity. This identity starting with `AGE-SECRET-*` is only usable for decryption.
-
-Prefer `FNOX_AGE_KEY` in remote sandboxes.
+The GitHub bootstrap task and the command wrappers in `config.toml` use Doppler's
+`--only-secrets` to request named values for a single command. Neither GitHub
+login nor dotfile deployment requires a fnox age key.

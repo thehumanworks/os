@@ -45,27 +45,58 @@ ccl = "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1 claude"
 command = "doppler"
 args = [
   "run",
-  "--only-secrets", "CLAUDE_CODE_OAUTH_TOKEN",
-  "--only-secrets", "EXA_API_KEY",
-  "--project", "global",
-  "--config", "dev",
+  "--only-secrets",
+  "CLAUDE_CODE_OAUTH_TOKEN",
+  "--only-secrets",
+  "EXA_API_KEY",
+  "--project",
+  "vault",
+  "--config",
+  "prd",
   "--",
-  "claude"
+  "claude",
 ]
 
 [wrappers.pi]
 command = "doppler"
 args = [
   "run",
-  "--only-secrets", "ATLASSIAN_API_TOKEN",
-  "--only-secrets", "ATLASSIAN_API_USERNAME",
-  "--only-secrets", "ATLASSIAN_BASE_URL",
-  "--only-secrets", "LOGGLY_API_TOKEN",
-  "--only-secrets", "LOGGLY_SUBDOMAIN",
-  "--only-secrets", "EXA_API_KEY",
-  "--project", "vault", "--config", "prd",
+  "--only-secrets",
+  "ATLASSIAN_API_TOKEN",
+  "--only-secrets",
+  "ATLASSIAN_API_USERNAME",
+  "--only-secrets",
+  "ATLASSIAN_BASE_URL",
+  "--only-secrets",
+  "LOGGLY_API_TOKEN",
+  "--only-secrets",
+  "LOGGLY_SUBDOMAIN",
+  "--only-secrets",
+  "EXA_API_KEY",
+  "--project",
+  "vault",
+  "--config",
+  "prd",
   "--",
-  "pi"
+  "pi",
+]
+
+[wrappers.twg]
+command = "doppler"
+args = [
+  "run",
+  "--only-secrets",
+  "TWG_TOKEN",
+  "--only-secrets",
+  "TWG_USER",
+  "--only-secrets",
+  "TWG_SITE",
+  "--project",
+  "vault",
+  "--config",
+  "prd",
+  "--",
+  "twg",
 ]
 
 [tool_alias]
@@ -89,6 +120,7 @@ fd = "latest"
 ripgrep = "latest"
 herdr = "latest"
 tmux = "latest"
+twg = "latest"
 "github:thehumanworks/wit" = "latest"
 "github:thehumanworks/capnshell" = "latest"
 hunk = "latest"
@@ -100,11 +132,10 @@ zsh = true
 bash = true
 
 [dotfiles]
-# Include shared defaults without linking Git's writable global config.
-"~/.config/git/config/mise-defaults" = { block = '''
-[include]
-    path = ~/.config/mise/dotfiles/git/config
-''' }
+# Git accepts a section and its first key on one line. Prepend the include so
+# existing settings in the writable ~/.gitconfig still win.
+"~/.config/git/mise-defaults" = { source = "dotfiles/git/config", mode = "copy" }
+"~/.gitconfig/mise-defaults" = { line = "[include] path = ~/.config/git/mise-defaults", position = "prepend" }
 
 # shell - path activation
 "~/.zshenv/local-bin" = { line = 'export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"', position = "prepend" }
@@ -114,7 +145,7 @@ bash = true
 if [[ -f ~/.bashrc ]]; then
   source ~/.bashrc
 fi
-'''}
+''' }
 
 # claude - .claude.json (includes MCP Servers) and settings
 "~/.claude.json" = { source = "dotfiles/claude/.claude.json", mode = "copy" }
